@@ -69,24 +69,26 @@ f_WARNING() {
 
 #Verifie arguments 
 function f_checkanswer () {
+# arg1 : saisie de l'utilisateur
+# argn : reponses attendu de l'utilisateur
+#On stock tous les elements
+tab=($*)
+#echo ${tab[*]}
+#echo ${tab[0]}
 #on recupere le derniere element
-a=($*)
-echo ${a[*]}
-echo ${a[0]}
-f_element=${a[0]}
-echo " le premiere element est $f_element"
-a=(${*:2})
-echo ${a[*]}
-for i in ${a[@]};
+f_element=${tab[0]}
+#echo " le premiere element est $f_element"
+tab=(${*:2})
+#echo ${tab[*]}
+for mot in ${tab[*]}
 do
-       echo "$f_element == $i";
-        if [ "$f_element" = $i ];
+ #     echo "$mot";
+        if [ "$f_element" = $mot ];
         then
 		echo "1"
                 return 1;
         fi
-echo "0"
-return 0;
+#echo "0"
 done
 }
 

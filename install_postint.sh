@@ -28,6 +28,7 @@ export INSTALL_AUTO=$3
 ### you must execute root user
 [ `whoami`  != "root" ] && println error "This script need to be launched as root." && exit 1
 
+# On verifie le nombre d'arguments
 if test $# -eq 3;then
   println "arguments valides"
 else
@@ -37,16 +38,24 @@ else
   println error "\n arg3 installation auto (yes ou no)"
   exit 1
 fi
+
+# On verifie la bonne saisie
 if f_checkanswer $1 ipbx server; then
-    println error "\n arg1 type de server installé : (server ou ipbx)"
+    println error "\n arg1 attendu : (server ou ipbx)"
     exit 2
-else
-	println info "continu"
 fi
 
-#if f_checkanswer $2 yes no; if "$retour" == "ko"; then echo "je suis mecontent"; fi
-#if f_checkanswer $3 yes no; if "$retour" == "ko"; then echo "je suis mecontent"; fi
+# On verifie la bonne saisie
+if f_checkanswer $2 yes no; then
+    println error "\n arg2 attendu : (yes ou no)"
+    exit 2
+fi
 
+# On verifie la bonne saisie
+if f_checkanswer $3 yes no; then
+    println error "\n arg3 attendu : (yes ou no)"
+    exit 2
+fi
 
 #### search package lsb_release ###
 if ! type -p lsb_release > /dev/null; then
