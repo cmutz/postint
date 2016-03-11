@@ -67,3 +67,26 @@ f_WARNING() {
     f_LOG "WARNING: $@"
 }
 
+#Verifie arguments 
+function f_checkanswer () {
+#on recupere le derniere element
+a=($*)
+echo ${a[*]}
+echo ${a[0]}
+f_element=${a[0]}
+echo " le premiere element est $f_element"
+a=(${*:2})
+echo ${a[*]}
+for i in ${a[@]};
+do
+       echo "$f_element == $i";
+        if [ "$f_element" = $i ];
+        then
+		echo "1"
+                return 1;
+        fi
+echo "0"
+return 0;
+done
+}
+

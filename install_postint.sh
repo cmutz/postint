@@ -37,6 +37,16 @@ else
   println error "\n arg3 installation auto (yes ou no)"
   exit 1
 fi
+if f_checkanswer $1 ipbx server; then
+    println error "\n arg1 type de server installé : (server ou ipbx)"
+    exit 2
+else
+	println info "continu"
+fi
+
+#if f_checkanswer $2 yes no; if "$retour" == "ko"; then echo "je suis mecontent"; fi
+#if f_checkanswer $3 yes no; if "$retour" == "ko"; then echo "je suis mecontent"; fi
+
 
 #### search package lsb_release ###
 if ! type -p lsb_release > /dev/null; then
@@ -54,7 +64,7 @@ if ! type -p aptitude > /dev/null; then
             apt-get -y install aptitude 
         fi
     fi
-else echo " *** aptitude déjà installé sur cette machine *** ;) "
+else echo " *** aptitude deja installe� sur cette machine *** ;) "
 fi
 
 ### update/upgrade/install for type distribution  ###
