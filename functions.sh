@@ -1,8 +1,7 @@
 #!/bin/bash
 
-check_soft() {
 # parametre $1 : nom de logiciel a verifier
-
+check_soft() {
    which $1 > /dev/null
     if [ $? != 0 ] ; then
         println error " $1	---> [ KO ]"
@@ -15,11 +14,10 @@ sleep 0.5
 }
 
 
-# Test de validité IPv4 de l'adresse entrée (expression régulière)
-function isIPv4 {
+# Test de validite IPv4 de l'adresse entree (expression reguliere)
 # parametre $1 : adresse IP à vérifier
 # code de sortie : 0 pour ok et 1 pour adresse ipv4 non valide
-
+isIPv4() {
 if [ $# = 1 ]
 then
  printf $1 | grep -Eq '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-4]|2[0-4][0-9]|[01]?[1-9][0-9]?)$'
@@ -124,7 +122,7 @@ ask_yn_question()
 }
 
 
-# function dectection de distribution 
+# function detection de distribution 
 detectdistro () {
   if [[ -z $distro ]]; then
     distro="Unknown"
@@ -151,14 +149,10 @@ detectdistro () {
 f_LOG() {
     echo "`date`:$@" >> $LOGFILE
 }
-
-
 f_INFO() {
     echo "$@"
     f_LOG "INFO: $@"
 }
-
-
 f_WARNING() {
     echo "$@"
     f_LOG "WARNING: $@"
@@ -168,25 +162,18 @@ f_WARNING() {
 # arg1 : saisie de l'utilisateur
 # argn : reponses attendu de l'utilisateur
 # f_checkanswer arg1 arg2 arg3 ... argn
-function f_checkanswer () {
+f_checkanswer () {
 #On stock tous les elements
 tab=($*)
-#echo ${tab[*]}
-#echo ${tab[0]}
 #on recupere le derniere element
 f_element=${tab[0]}
-#echo " le premiere element est $f_element"
 tab=(${*:2})
-#echo ${tab[*]}
 for mot in ${tab[*]}
 do
- #     echo "$mot";
         if [ "$f_element" = $mot ];
         then
-                echo "1"
                 return 1;
         fi
-#echo "0"
 done
 }
 
