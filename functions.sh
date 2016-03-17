@@ -1,6 +1,7 @@
 #!/bin/bash
 
 check_soft() {
+# parametre $1 : nom de logiciel a verifier
 
    which $1 > /dev/null
     if [ $? != 0 ] ; then
@@ -16,6 +17,9 @@ sleep 0.5
 
 # Test de validité IPv4 de l'adresse entrée (expression régulière)
 function isIPv4 {
+# parametre $1 : adresse IP à vérifier
+# code de sortie : 0 pour ok et 1 pour adresse ipv4 non valide
+
 if [ $# = 1 ]
 then
  printf $1 | grep -Eq '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-4]|2[0-4][0-9]|[01]?[1-9][0-9]?)$'
@@ -27,15 +31,17 @@ fi
 
 
 verification_access_ping() {
-
-    println info "\t\nvérification de l'accessibilité du serveur"
-    ${PATCH_PING} -c1 $* > /dev/null
-    if [ $? != 0 ] ; then
-    return 2
+# vérifier si le serveur est joiniable 
+# code de sortie : 0 pour ok et 1 pour adresse ipv4 non valide
+    if PATCH_PING=$(which ping) ; then 
+	println info "\t\nvérification de l'accessibilité du serveur"
+        ${PATCH_PING} -c1 $*
+	# Si le resultat de la commande renvoi != 0 alors ça ping !
+	echo $?
+        if [ $? != 0 ] ; then return 2 echo toto;	else return 0;	fi
     else 
-    return 0
+	return 2; 
     fi
-       
 }
 
 
@@ -157,3 +163,30 @@ f_WARNING() {
     echo "$@"
     f_LOG "WARNING: $@"
 }
+
+# Verifie la réponse saisie de l'utilisateur
+# arg1 : saisie de l'utilisateur
+# argn : reponses attendu de l'utilisateur
+# f_checkanswer arg1 arg2 arg3 ... argn
+function f_checkanswer () {
+#On stock tous les elements
+tab=($*)
+#echo ${tab[*]}
+#echo ${tab[0]}
+#on recupere le derniere element
+f_element=${tab[0]}
+#echo " le premiere element est $f_element"
+tab=(${*:2})
+#echo ${tab[*]}
+for mot in ${tab[*]}
+do
+ #     echo "$mot";
+        if [ "$f_element" = $mot ];
+        then
+                echo "1"
+                return 1;
+        fi
+#echo "0"
+done
+}
+
