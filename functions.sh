@@ -1,10 +1,13 @@
 #!/bin/bash
 
 # parametre $1 : nom de logiciel a verifier
-check_soft() {
+f_check_soft() {
    which $1 > /dev/null
     if [ $? != 0 ] ; then
         println error " $1	---> [ KO ]"
+	println error "$1 non detecte sur cette distribution vous pouvez"
+	println error "l'installer en faisant un apt-get install $1 "
+	println error " et/ou verifier manuellement la presence du paquet"
         export check_soft="KO"
     else
         println ras " $1	---> [ OK ]"
@@ -17,7 +20,7 @@ sleep 0.5
 # Test de validite IPv4 de l'adresse entree (expression reguliere)
 # parametre $1 : adresse IP à vérifier
 # code de sortie : 0 pour ok et 1 pour adresse ipv4 non valide
-isIPv4() {
+f_isIPv4() {
 if [ $# = 1 ]
 then
  printf $1 | grep -Eq '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-4]|2[0-4][0-9]|[01]?[1-9][0-9]?)$'
@@ -28,7 +31,7 @@ fi
 }
 
 
-verification_access_ping() {
+f_verification_access_ping() {
 # vérifier si le serveur est joiniable 
 # code de sortie : 0 pour ok et 1 pour adresse ipv4 non valide
     if PATCH_PING=$(which ping) ; then 
@@ -43,7 +46,9 @@ verification_access_ping() {
 }
 
 
-generate_pair_authentication_keys() {
+f_generate_pair_authentication_keys() {
+    println info "\t\n Verification du paquet ssh-keygen \n"
+    check_soft ssh-keygen
 
     println info "\t\n Creation de la pair ssh sur le serveur local\n"
     if [ ! -f /root/.ssh/id_rsa.pub ]; then
@@ -52,14 +57,16 @@ generate_pair_authentication_keys() {
     println warn "\t\n/$1/.ssh/id_rsa.pub exist"
     println warn "\t\n Utilisation de la pair de clé /$1/.ssh/id_rsa"
     fi
+	### Ne comprend pas ce que ça fait là !  ###
     println warn "\t\n------------> WARNING !!!! <------------ \n"
     println warn "\t\n------------> ETES VOUS PRET A RENTRER LE MOT DE PASSE de l'utilisateur $1 (presser entrer) <------------ \n"; read
     [ -f ${PATCH_SSH_COPY_ID} ] && ${PATCH_SSH_COPY_ID} -i /$1/.ssh/id_rsa.pub $1@$2 -p ${PORT_SSH}
+	### Ne comprend pas ce que ça fait là !  ###
 }
 
-verification_connexion_ssh() {
+f_verification_connexion_ssh() {
 
-    println info "\tvérification de la connection ssh\n"
+    println info "\t vérification de la connection ssh\n"
 
     cat > ${PATCH_TMP}${NAME_SCRIPT} << EOF
 #!/usr/bin/expect -f
@@ -85,7 +92,7 @@ EOF
     if [[ -f ${PATCH_TMP}${NAME_SCRIPT} ]]; then rm ${PATCH_TMP}${NAME_SCRIPT}; fi # supprime d'eventiels fichiers
 }
 
-println() {
+f_println() {
     level=$1
     text=$2
 
@@ -101,7 +108,7 @@ println() {
 }
 
 
-ask_yn_question()
+f_ask_yn_question()
 {
     QUESTION=$1
 
@@ -123,7 +130,7 @@ ask_yn_question()
 
 
 # function detection de distribution 
-detectdistro () {
+f_detectdistro () {
   if [[ -z $distro ]]; then
     distro="Unknown"
     if grep -i debian /etc/lsb-release >/dev/null 2>&1; then distro="debian"; fi
