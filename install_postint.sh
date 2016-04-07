@@ -128,7 +128,7 @@ done
 #	configuration de l'envoi des mails
 #
 println info "\tconfiguration de l'envoi des mails\n"
-$PATCH_BASH $PATCH_CONFIGURATION/POSTFIX/install_mail.sh
+PATCH_BASH $PATCH_CONFIGURATION/POSTFIX/install_mail.sh
 
 ##########################################
 #	configuration security rootkit 
@@ -144,10 +144,13 @@ $PATCH_CP -rav $PATCH_CONFIGURATION/* /;\
 $PATCH_CP -rav $PATCH_CONFIGURATION/HOME_DIR/. $HOME/;\ 
 chown -R $(id -u -n):$(id -u -n) $HOME/.
 
+##########################################
+#	cle ssh publique
+#
+cat $PATCH_CONFIGURATION/ssh/known_hosts >> $HOME/.ssh/known_hosts
 
-source /etc/zsh/zshrc
 
-clear
+#clear
 
 echo -e "\n\n\n"
 
@@ -166,6 +169,9 @@ echo -e "\n\n\n"
 # pour le fun ......
 $PATCH_BASH $PATCH_END_SCRIPT/resume_system.sh
 sleep 2
+
+chsh -s /bin/zsh
+source /etc/zsh/zshrc
  
 #chmod +x $PATCH_END_SCRIPT/clean_pc.sh
 #./$PATCH_END_SCRIPT/clean_pc.sh
