@@ -10,76 +10,7 @@
 set -u
 export LC_ALL=C
 
-if [[ $SCRIPT_TYPE = "client" ]];then
-    debs_to_install="
-
-        #
-        #	Outils de la dernière chance
-        bash-static
-        busybox-static
-        e2fsck-static
-
-        #
-        #	Développement
-        binutils
-        make
-        patch
-
-        #
-        #	Debug
-        tcpdump
-        wireshark
-
-	#
-        #	Surveillance
-        #
-        htop
-        iftop
-        itop
-	lm-sensors
-
-        #
-        #	Utilitaires réseau
-        telnet
-        vlan
-        w3m
-        cifs-utils
-
-	#
-        #	Utilitaires d'archivage
-        bzip2
-        p7zip
-        unrar-free
-        unzip
-
-        #
-        #	Autres utilitaires
-        apt-file
-        bash-completion
-        bc
-        gawk
-        kpartx
-	less
-        lsb-release
-        mbr
-        minicom
-        mlocate
-        mmv
-        molly-guard
-        ncurses-hexedit
-        psmisc
-        pwgen
-        screen
-        time
-        vim
-        tmux
-        virtualbox
-	pidgin
-        vlc
-        tree
-        cowsay
-"
-elif [[ $SCRIPT_TYPE = "server" ]];then
+if [[ $SCRIPT_TYPE = "server" ]];then
     debs_to_install="
 
         #
@@ -137,6 +68,7 @@ elif [[ $SCRIPT_TYPE = "server" ]];then
         apt-file
         bash-completion
         bc
+        chkrootkit
         gawk
         kpartx
 	less
@@ -149,13 +81,14 @@ elif [[ $SCRIPT_TYPE = "server" ]];then
         ncurses-hexedit
         psmisc
         pwgen
+	postfix
+	rkhunter
         screen
         time
-        vim
         tmux
         tree
-	rkhunter
-        chkrootkit
+        vim
+	zsh
 "
 
 elif [[ $SCRIPT_TYPE = "ipbx" ]];then
@@ -216,6 +149,7 @@ elif [[ $SCRIPT_TYPE = "ipbx" ]];then
         apt-file
         bash-completion
         bc
+        chkrootkit
         gawk
         kpartx
 	less
@@ -228,11 +162,14 @@ elif [[ $SCRIPT_TYPE = "ipbx" ]];then
         ncurses-hexedit
         psmisc
         pwgen
+	postfix
+	rkhunter
         screen
         time
-        vim
         tmux
         tree
+        vim
+	zsh
 
 	#
 	#	Security
@@ -283,10 +220,10 @@ pkg_purge_params="$debs_to_purge"
 #	Installation et retrait des paquets
 #
 pkg_manager="apt-get"
-type -p aptitude > /dev/null && pkg_manager="aptitude"
+#type -p aptitude > /dev/null && pkg_manager="aptitude"
 #read -r -p "Mettre à jour les paquets de cette machine (o/N)? " answer
 if [[ $INSTALL_AUTO = yes ]]; then
-	$pkg_manager -yf install $pkg_install_params
+	$pkg_manager -yf  install $pkg_install_params
 else
 	if ask_yn_question "\tMettre à jour les paquets de cette machine ?"; then
     	println info "Faire \" $pkg_manager install $pkg_install_params \" "

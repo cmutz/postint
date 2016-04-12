@@ -67,3 +67,22 @@ f_WARNING() {
     f_LOG "WARNING: $@"
 }
 
+# Verifie la réponse saisie de l'utilisateur
+# # arg1 : saisie de l'utilisateur
+# # argn : reponses attendu de l'utilisateur
+# # f_checkanswer arg1 arg2 arg3 ... argn
+f_checkanswer () {
+#On stock tous les elements
+tab=($*)
+#on recupere le derniere element
+f_element=${tab[0]}
+tab=(${*:2})
+for mot in ${tab[*]}
+do
+        if [ "$f_element" = $mot ];
+        then
+                return 1;
+        fi
+done
+}
+
