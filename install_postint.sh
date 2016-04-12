@@ -140,24 +140,12 @@ $PATCH_BASH $PATCH_CONFIGURATION/SECURITY/ROOTKIT/install_rootkit.sh
 #	configuration global 
 #
 [ $CONFIGURATION_BASH_CUSTOM="yes" ] && println info "\tconfiguration global\n";\ 
-$PATCH_CP -rav $PATCH_CONFIGURATION/. /.;\ 
+$PATCH_CP -rav $PATCH_CONFIGURATION/* /;\ 
 $PATCH_CP -rav $PATCH_CONFIGURATION/HOME_DIR/. $HOME/;\ 
 chown -R $(id -u -n):$(id -u -n) $HOME/.
 
-##########################################
-#	configuration iptables
-#
-#
-#println info "\tconfiguration iptables\n"
-#$PATCH_BASH $PATCH_CONFIGURATION/FIREWALL/install_iptables.sh
 
-##########################################
-#	configuration logrotate
-#
-#println info "\tconfiguration logrotate\n"
-#$PATCH_BASH $PATCH_CONFIGURATION/LOGROTATE/install_logrotate.sh
-
-source ~/.bashrc
+source /etc/zsh/zshrc
 
 clear
 
