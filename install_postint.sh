@@ -170,6 +170,8 @@ echo -e "\n\n\n"
 $PATCH_BASH $PATCH_END_SCRIPT/resume_system.sh
 sleep 2
 
+
+$PATCH_BASH $PATCH_CONFIGURATION/ZSH/zsh_install.sh
 chsh -s /bin/zsh
 source /etc/zsh/zshrc
  
