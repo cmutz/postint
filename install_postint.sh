@@ -1,13 +1,13 @@
 #!/bin/bash
 #########################################
 # Original script by Xavier Hienne
-# # Copyright (c) 2013, Clément Mutz <c.mutz@whoople.fr>
+# # Copyright (c) 2013, ClÃ©ment Mutz <c.mutz@whoople.fr>
 # #########################################
-# # Modified by Clément Mutz
+# # Modified by ClÃ©ment Mutz
 # # Contact at c.mutz@whoople.fr
 # #########################################
 # Utilisation ./mon_script.sh arg1 arg2 arg3
-# arg1 : type de server installé : (server ou ipbx)
+# arg1 : type de server installÃ© : (server ou ipbx)
 # arg2 : remplacement des fichiers utilisateur (yes ou no)
 # arg3 : installation auto (yes ou no)
 #================== Globals ==================================================
@@ -33,7 +33,7 @@ if test $# -eq 3;then
   println "arguments valides"
 else
   println error "\n Usage: ${0} <arg1> <arg2> <arg3>"
-  println error "\n arg1 type de server installé : (server ou ipbx)"
+  println error "\n arg1 type de server installÃ© : (server ou ipbx)"
   println error "\n arg2 remplacement des fichiers utilisateur (yes ou no)"
   println error "\n arg3 installation auto (yes ou no)"
   exit 1
@@ -69,11 +69,11 @@ if ! type -p aptitude > /dev/null; then
         println info "Installation du paquet aptitude"
         apt-get -y install aptitude
     else
-        if ask_yn_question "\t*** Le paquet aptitude n'est pas présent, voulez-vous l'installer ? ***"; then 
+        if ask_yn_question "\t*** Le paquet aptitude n'est pas prÃ©sent, voulez-vous l'installer ? ***"; then 
             apt-get -y install aptitude 
         fi
     fi
-else echo " *** aptitude deja installe� sur cette machine *** ;) "
+else echo " *** aptitude deja installe© sur cette machine *** ;) "
 fi
 
 ### update/upgrade/install for type distribution  ###
@@ -128,7 +128,7 @@ done
 #	configuration de l'envoi des mails
 #
 println info "\tconfiguration de l'envoi des mails\n"
-PATCH_BASH $PATCH_CONFIGURATION/POSTFIX/install_mail.sh
+$PATCH_BASH $PATCH_CONFIGURATION/POSTFIX/install_mail.sh
 
 ##########################################
 #	configuration security rootkit 
@@ -147,6 +147,7 @@ chown -R $(id -u -n):$(id -u -n) $HOME/.
 ##########################################
 #	cle ssh publique
 #
+if [ -d "$HOME/.ssh" ];then mkdir $HOME/.ssh/
 cat $PATCH_CONFIGURATION/ssh/known_hosts >> $HOME/.ssh/known_hosts
 
 
@@ -156,12 +157,12 @@ echo -e "\n\n\n"
 
 echo >&2
 if [ "$num_scripts" -eq 0 ]; then
-    echo "ATTENTION: aucun script n'a été exécuté."
+    echo "ATTENTION: aucun script n'a Ã©tÃ© exÃ©cutÃ©."
 elif [ "$num_failures" -eq 0 ]; then
-    echo "$num_scripts scripts ont été exécutés sans erreur."
+    echo "$num_scripts scripts ont Ã©tÃ© exÃ©cutÃ©s sans erreur."
 else
-    echo "$num_scripts scripts ont été exécutés."
-    echo "ATTENTION: $num_failures scripts se sont terminés avec une erreur."
+    echo "$num_scripts scripts ont Ã©tÃ© exÃ©cutÃ©s."
+    echo "ATTENTION: $num_failures scripts se sont terminÃ©s avec une erreur."
 fi >&2
 
 echo -e "\n\n\n"
