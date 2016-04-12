@@ -68,6 +68,7 @@ if [[ $SCRIPT_TYPE = "server" ]];then
         apt-file
         bash-completion
         bc
+        chkrootkit
         gawk
         kpartx
 	less
@@ -80,13 +81,13 @@ if [[ $SCRIPT_TYPE = "server" ]];then
         ncurses-hexedit
         psmisc
         pwgen
+	postfix
+	rkhunter
         screen
         time
-        vim
         tmux
         tree
-	rkhunter
-        chkrootkit
+        vim
 	zsh
 "
 
