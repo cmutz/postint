@@ -57,10 +57,3 @@ pkg_manager="apt-get"
 type -p aptitude > /dev/null && pkg_manager="aptitude"
 $pkg_manager install $pkg_install_params
 $pkg_manager purge --assume-yes $pkg_purge_params
-
-
-#
-#       Installation de oh-my-zsh
-#
-
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
