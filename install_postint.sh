@@ -33,7 +33,7 @@ if test $# -eq 3;then
   println "arguments valides"
 else
   println error "\n Usage: ${0} <arg1> <arg2> <arg3>"
-  println error "\n arg1 type de server installÃ© : (server ou ipbx)"
+  println error "\n arg1 type de server installe : (server ou ipbx)"
   println error "\n arg2 remplacement des fichiers utilisateur (yes ou no)"
   println error "\n arg3 installation auto (yes ou no)"
   exit 1
