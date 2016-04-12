@@ -1,1 +1,0 @@
-while true; do bash /root/hangup_chan.sh; sleep 20; done
