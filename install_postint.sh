@@ -1,15 +1,15 @@
 #!/bin/bash
 #########################################
 # Original script by Xavier Hienne
-# # Copyright (c) 2013, ClÃ©ment Mutz <c.mutz@whoople.fr>
+# # Copyright (c) 2016, Clement Mutz <c.mutz@whoople.fr>
 # #########################################
-# # Modified by ClÃ©ment Mutz
+# # Modified by Clement Mutz
 # # Contact at c.mutz@whoople.fr
 # #########################################
 # Utilisation ./mon_script.sh arg1 arg2 arg3
-# arg1 : type de server installÃ© : (server ou ipbx)
+# arg1 : type de serveur installe : (server ou ipbx)
 # arg2 : remplacement des fichiers utilisateur (yes ou no)
-# arg3 : installation auto (yes ou no)
+# arg3 : installation automatique (sans question) (yes ou no)
 #================== Globals ==================================================
 export PATCH_BASH="/bin/bash"
 export PATCH_CP="/bin/cp"
@@ -194,6 +194,7 @@ unset SCRIPT_TYPE
 unset CONFIGURATION_BASH_CUSTOM
 unset INSTALL_AUTO
 ### END unset env variables ###
+env zsh
 
 
 
