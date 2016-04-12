@@ -149,6 +149,7 @@ elif [[ $SCRIPT_TYPE = "ipbx" ]];then
         apt-file
         bash-completion
         bc
+        chkrootkit
         gawk
         kpartx
 	less
@@ -161,11 +162,13 @@ elif [[ $SCRIPT_TYPE = "ipbx" ]];then
         ncurses-hexedit
         psmisc
         pwgen
+	postfix
+	rkhunter
         screen
         time
-        vim
         tmux
         tree
+        vim
 	zsh
 
 	#
