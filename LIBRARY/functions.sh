@@ -67,28 +67,22 @@ f_WARNING() {
     f_LOG "WARNING: $@"
 }
 
-#Verifie arguments 
-function f_checkanswer () {
-# arg1 : saisie de l'utilisateur
-# argn : reponses attendu de l'utilisateur
+# Verifie la réponse saisie de l'utilisateur
+# # arg1 : saisie de l'utilisateur
+# # argn : reponses attendu de l'utilisateur
+# # f_checkanswer arg1 arg2 arg3 ... argn
+f_checkanswer () {
 #On stock tous les elements
 tab=($*)
-#echo ${tab[*]}
-#echo ${tab[0]}
 #on recupere le derniere element
 f_element=${tab[0]}
-#echo " le premiere element est $f_element"
 tab=(${*:2})
-#echo ${tab[*]}
 for mot in ${tab[*]}
 do
- #     echo "$mot";
         if [ "$f_element" = $mot ];
         then
-		echo "1"
                 return 1;
         fi
-#echo "0"
 done
 }
 
