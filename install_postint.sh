@@ -139,7 +139,10 @@ $PATCH_BASH $PATCH_CONFIGURATION/SECURITY/ROOTKIT/install_rootkit.sh
 ##########################################
 #	configuration global 
 #
-[ $CONFIGURATION_BASH_CUSTOM="yes" ] && println info "\tconfiguration global\n";$PATCH_CP -rav $PATCH_CONFIGURATION/etc/vim/. /etc/vim/.;$PATCH_CP -rav $PATCH_CONFIGURATION/HOME_DIR/. $HOME/;chown -R $(id -u -n):$(id -u -n) $HOME/.;chmod +x $HOME/whereami
+[ $CONFIGURATION_BASH_CUSTOM="yes" ] && println info "\tconfiguration global\n";\ 
+$PATCH_CP -rav $PATCH_CONFIGURATION/. /.;\ 
+$PATCH_CP -rav $PATCH_CONFIGURATION/HOME_DIR/. $HOME/;\ 
+chown -R $(id -u -n):$(id -u -n) $HOME/.
 
 ##########################################
 #	configuration iptables

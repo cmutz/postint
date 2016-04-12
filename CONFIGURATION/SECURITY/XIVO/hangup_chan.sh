@@ -3,7 +3,7 @@
 IP_WAN_1=94.247.167.139
 IP_WAN_2=94.247.167.145
 SIP_TEST=xphn00
-dest_mail=infrastructure@servitics.fr
+dest_mail=infrastructure@whoople.fr
 
 
 #listen_channel $SIP_TEST

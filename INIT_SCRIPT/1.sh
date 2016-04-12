@@ -10,76 +10,7 @@
 set -u
 export LC_ALL=C
 
-if [[ $SCRIPT_TYPE = "client" ]];then
-    debs_to_install="
-
-        #
-        #	Outils de la dernière chance
-        bash-static
-        busybox-static
-        e2fsck-static
-
-        #
-        #	Développement
-        binutils
-        make
-        patch
-
-        #
-        #	Debug
-        tcpdump
-        wireshark
-
-	#
-        #	Surveillance
-        #
-        htop
-        iftop
-        itop
-	lm-sensors
-
-        #
-        #	Utilitaires réseau
-        telnet
-        vlan
-        w3m
-        cifs-utils
-
-	#
-        #	Utilitaires d'archivage
-        bzip2
-        p7zip
-        unrar-free
-        unzip
-
-        #
-        #	Autres utilitaires
-        apt-file
-        bash-completion
-        bc
-        gawk
-        kpartx
-	less
-        lsb-release
-        mbr
-        minicom
-        mlocate
-        mmv
-        molly-guard
-        ncurses-hexedit
-        psmisc
-        pwgen
-        screen
-        time
-        vim
-        tmux
-        virtualbox
-	pidgin
-        vlc
-        tree
-        cowsay
-"
-elif [[ $SCRIPT_TYPE = "server" ]];then
+if [[ $SCRIPT_TYPE = "server" ]];then
     debs_to_install="
 
         #
@@ -156,6 +87,7 @@ elif [[ $SCRIPT_TYPE = "server" ]];then
         tree
 	rkhunter
         chkrootkit
+	zsh
 "
 
 elif [[ $SCRIPT_TYPE = "ipbx" ]];then
@@ -233,6 +165,7 @@ elif [[ $SCRIPT_TYPE = "ipbx" ]];then
         vim
         tmux
         tree
+	zsh
 
 	#
 	#	Security
