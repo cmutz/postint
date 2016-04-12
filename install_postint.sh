@@ -141,7 +141,6 @@ $PATCH_BASH $PATCH_CONFIGURATION/SECURITY/ROOTKIT/install_rootkit.sh
 #
 if [ $CONFIGURATION_BASH_CUSTOM="yes" ]; then
 println info "\tconfiguration global\n"
-$PATCH_CP -rav $PATCH_CONFIGURATION/* / 
 rsync -av --progress $PATCH_CONFIGURATION/etc / 
 $PATCH_CP -rav $PATCH_CONFIGURATION/HOME_DIR/. $HOME/
 chown -R $(id -u -n):$(id -u -n) $HOME/.
