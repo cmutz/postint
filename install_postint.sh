@@ -1,10 +1,10 @@
 #!/bin/bash
 #########################################
 # Original script by Xavier Hienne
-# # Copyright (c) 2013, Clément Mutz <c.mutz@servitics.fr>
+# # Copyright (c) 2013, Clément Mutz <c.mutz@whoople.fr>
 # #########################################
 # # Modified by Clément Mutz
-# # Contact at c.mutz@servitics.fr
+# # Contact at c.mutz@whoople.fr
 # #########################################
 # Utilisation ./mon_script.sh arg1 arg2 arg3
 # arg1 : type de server installé : (server ou ipbx)
