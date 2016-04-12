@@ -9,4 +9,4 @@ export LOGFILE=./log.`date +%s`.out
 export SCRIPT_TYPE=$1
 export CONFIGURATION_CUSTOM=$2
 export INSTALL_AUTO=$3
-
+export MAIL="infrastructure@whoople.fr"

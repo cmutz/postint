@@ -10,7 +10,6 @@
 set -u
 export LC_ALL=C
 
-if [[ $SCRIPT_TYPE = "server" ]];then
     debs_to_install="
 
         #
@@ -68,10 +67,10 @@ if [[ $SCRIPT_TYPE = "server" ]];then
         apt-file
         bash-completion
         bc
-        chkrootkit
         gawk
         kpartx
 	less
+	logwatch
         lsb-release
         mbr
         minicom
@@ -82,88 +81,6 @@ if [[ $SCRIPT_TYPE = "server" ]];then
         psmisc
         pwgen
 	postfix
-	rkhunter
-        screen
-        time
-        tmux
-        tree
-        vim
-	zsh
-"
-
-elif [[ $SCRIPT_TYPE = "ipbx" ]];then
-    debs_to_install="
-
-        #
-        #	Outils de la dernière chance
-        #
-        bash-static
-        busybox-static
-        e2fsck-static
-
-        #
-        #	Développement
-        #
-        binutils
-        make
-        patch
-
-        #
-        #	Debug
-        #
-        tcpdump
-        tshark
-
-	#
-        #	Surveillance
-        #
-        atop
-        htop
-        iftop
-        iotop
-        ipmitool
-        iptraf
-        itop
-	lm-sensors
-        mytop
-
-        #
-        #	Utilitaires réseau
-        #
-        telnet
-        vlan
-        w3m
-        cifs-utils
-
-	#
-        #	Utilitaires d'archivage
-        #
-        bzip2
-        p7zip
-        unrar-free
-        unzip
-
-        #
-        #	Autres utilitaires
-        #
-        apt-file
-        bash-completion
-        bc
-        chkrootkit
-        gawk
-        kpartx
-	less
-        lsb-release
-        mbr
-        minicom
-        mlocate
-        mmv
-        molly-guard
-        ncurses-hexedit
-        psmisc
-        pwgen
-	postfix
-	rkhunter
         screen
         time
         tmux
@@ -172,14 +89,13 @@ elif [[ $SCRIPT_TYPE = "ipbx" ]];then
 	zsh
 
 	#
-	#	Security
+	#	Reseau
 	#
-	rkhunter
 	chkrootkit
+	rkhunter
+	fail2ban
+	lynis
 "
-    bash $PATCH_CONFIGURATION/SECURITY/XIVO/install_securiry.sh
-fi
-
 
 debs_to_purge="
     busybox		# Remplacé par busybox-static

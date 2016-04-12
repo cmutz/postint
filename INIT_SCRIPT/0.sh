@@ -7,7 +7,12 @@
 ### END import file functions ###
 
 set -u  # u pour envoyer sur l'entrée standard les variables non définies
-export LC_ALL=C
+
+### configuration des locales
+export LANGUAGE=fr_FR.UTF-8
+export LANG=fr_FR.UTF-8
+export LC_ALL=fr_FR.UTF-8
+locale-gen fr_FR.UTF-8
 
 pkg_manager="apt-get"
 type -p aptitude > /dev/null && pkg_manager="aptitude"
