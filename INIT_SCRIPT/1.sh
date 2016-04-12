@@ -225,10 +225,10 @@ type -p aptitude > /dev/null && pkg_manager="aptitude"
 #	Installation et retrait des paquets
 #
 pkg_manager="apt-get"
-type -p aptitude > /dev/null && pkg_manager="aptitude"
+#type -p aptitude > /dev/null && pkg_manager="aptitude"
 #read -r -p "Mettre à jour les paquets de cette machine (o/N)? " answer
 if [[ $INSTALL_AUTO = yes ]]; then
-	$pkg_manager -yf install $pkg_install_params
+	$pkg_manager -yf  install $pkg_install_params
 else
 	if ask_yn_question "\tMettre à jour les paquets de cette machine ?"; then
     	println info "Faire \" $pkg_manager install $pkg_install_params \" "
