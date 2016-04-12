@@ -139,10 +139,12 @@ $PATCH_BASH $PATCH_CONFIGURATION/SECURITY/ROOTKIT/install_rootkit.sh
 ##########################################
 #	configuration global 
 #
-[ $CONFIGURATION_BASH_CUSTOM="yes" ] && println info "\tconfiguration global\n";\ 
-$PATCH_CP -rav $PATCH_CONFIGURATION/* /;\ 
-$PATCH_CP -rav $PATCH_CONFIGURATION/HOME_DIR/. $HOME/;\ 
+if [ $CONFIGURATION_BASH_CUSTOM="yes" ]; then
+println info "\tconfiguration global\n"
+$PATCH_CP -rav $PATCH_CONFIGURATION/* 
+$PATCH_CP -rav $PATCH_CONFIGURATION/HOME_DIR/. $HOME/
 chown -R $(id -u -n):$(id -u -n) $HOME/.
+fi
 
 ##########################################
 #	cle ssh publique
@@ -174,7 +176,7 @@ sleep 2
 
 $PATCH_BASH $PATCH_CONFIGURATION/ZSH/zsh_install.sh
 chsh -s /bin/zsh
-source /etc/zsh/zshrc
+#source /etc/zsh/zshrc
  
 #chmod +x $PATCH_END_SCRIPT/clean_pc.sh
 #./$PATCH_END_SCRIPT/clean_pc.sh
