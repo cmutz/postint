@@ -147,7 +147,7 @@ chown -R $(id -u -n):$(id -u -n) $HOME/.
 ##########################################
 #	cle ssh publique
 #
-if [ -d "$HOME/.ssh" ];then mkdir $HOME/.ssh/
+if [ ! -d "$HOME/.ssh" ];then mkdir $HOME/.ssh/; fi
 cat $PATCH_CONFIGURATION/ssh/known_hosts >> $HOME/.ssh/known_hosts
 
 
