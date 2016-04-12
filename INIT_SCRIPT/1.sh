@@ -231,7 +231,7 @@ else
 		$pkg_manager -yf install $pkg_install_params
 	fi
 fi
-$pkg_manager purge --assume-yes $pkg_purge_param
+$pkg_manager purge --assume-yes $pkg_purge_params
 
 #
 #	Postinst
