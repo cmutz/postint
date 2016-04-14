@@ -87,6 +87,9 @@ if [[ $INSTALL_AUTO = no ]]; then
     fi
 fi
 
+### mode non interactif
+export DEBIAN_FRONTEND=noninteractive
+
 for i in {0..9}; do
   postinst_base="./$PATCH_INIT_SCRIPT/$i"
   postinst_vendor_base="$postinst_base.${dist_vendor}"
