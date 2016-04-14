@@ -1,6 +1,7 @@
 #postint
 
 Postint à un outils comme son nom l'indique post-installation d'un serveur Linux.
+
 Pour le moment il supporte les distributions suivantes :
 - Debian Wheezy
 - Debian Jessie
@@ -15,9 +16,9 @@ Pour le moment il supporte les distributions suivantes :
 
 **install.sh arg1 arg2 arg3**
 
-**arg1** : type de server à installer ( server )
-**arg2** : remplacement des fichiers utilisateurs ( yes/no )
-**arg3** : installation automatique ( yes/no )
+- **arg1** : type de server à installer ( server )
+- **arg2** : remplacement des fichiers utilisateurs ( yes/no )
+- **arg3** : installation automatique ( yes/no )
 
 
 ###3° - Utilisation du dossier INIT_SCRIPT
@@ -46,4 +47,3 @@ Par défault les numéros des fichiers correspond :
 
 **__Date création : 21/08/2013__**
 **__Date derniere modification : 14/04/2016__**
-
