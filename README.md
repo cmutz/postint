@@ -13,14 +13,14 @@ Pour le moment il supporte les distributions suivantes :
 
 ###2°- execution du script d'installation
 
-install.sh arg1 arg2 arg3
+**install.sh arg1 arg2 arg3**
 
-arg1 : type de server à installer ( server )
-arg2 : remplacement des fichiers utilisateurs ( yes/no )
-arg3 : installation automatique ( yes/no )
+**arg1** : type de server à installer ( server )
+**arg2** : remplacement des fichiers utilisateurs ( yes/no )
+**arg3** : installation automatique ( yes/no )
 
 
-
+###3° - Utilisation du dossier INIT_SCRIPT
 
 Ensuite dans le dossier OS, les scripts sont executés dans leurs ordre en fonction du numéro, du nom distributions et enfin de la version de la dsitrib.
 
@@ -32,22 +32,18 @@ Par défault les numéros des fichiers correspond :
 0 -> mis à jour des paquets
 1 -> installation des paquets
 2 -> ajout de dépôts
-
-#### A FAIRE ####
-Logger dans un fichier les log écrans
-
-
-Adapter les fichiers suivants en fonction de son utilisation.
-.bashrc
-.screenrc
-bin/whereami
+3 -> configuration
+9 -> fin de configuration
 
 
-Auteur : Mutz Clement
-Date derniere modification : 21/08/2013
 
-WARNING !!!!!!!!!!!!!!!!!
-Bien lire le TODO avant d'executer update.sh
+###A VENIR
 
-Le fichier update.sh effectue plusieurs étapes décomposer comme suit :
+- Logger dans un fichier les log écrans
+- Prendre en compte les installations pour des services particuliers (xivo, owncloud, odoo ...) 
+
+
+
+**__Date création : 21/08/2013__**
+**__Date derniere modification : 14/04/2016__**
 
