@@ -20,7 +20,6 @@
 . $PATCH_LIBRARY/functions.sh
 
 
-prerequis() {
 #================== Verification =============================================
 ### you must execute root user
 [ `whoami`  != "root" ] && println error "This script need to be launched as root." && exit 1
@@ -87,9 +86,7 @@ if [[ $INSTALL_AUTO = no ]]; then
         read -r -p " *** Renseigner le nom de votre version (quantal,wheezy) *** " dist_name
     fi
 fi
-}
 
-main() {
 for i in {0..9}; do
   postinst_base="./$PATCH_INIT_SCRIPT/$i"
   postinst_vendor_base="$postinst_base.${dist_vendor}"
@@ -132,10 +129,6 @@ fi >&2
 # pour le fun ......
 $PATCH_BASH $PATCH_END_SCRIPT/resume_system.sh
 sleep 2
-}
-
-prerequis
-main
 
 $PATCH_BASH $PATCH_CONFIGURATION/ZSH/zsh_install.sh
 chsh -s /bin/zsh
