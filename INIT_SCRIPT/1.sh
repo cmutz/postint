@@ -68,6 +68,7 @@ if [[ $SCRIPT_TYPE = "server" ]];then
         apt-file
         bash-completion
         bc
+        chkrootkit
         gawk
         kpartx
 	less
@@ -80,13 +81,13 @@ if [[ $SCRIPT_TYPE = "server" ]];then
         ncurses-hexedit
         psmisc
         pwgen
+	postfix
+	rkhunter
         screen
         time
-        vim
         tmux
         tree
-	rkhunter
-        chkrootkit
+        vim
 	zsh
 "
 
@@ -148,6 +149,7 @@ elif [[ $SCRIPT_TYPE = "ipbx" ]];then
         apt-file
         bash-completion
         bc
+        chkrootkit
         gawk
         kpartx
 	less
@@ -160,11 +162,13 @@ elif [[ $SCRIPT_TYPE = "ipbx" ]];then
         ncurses-hexedit
         psmisc
         pwgen
+	postfix
+	rkhunter
         screen
         time
-        vim
         tmux
         tree
+        vim
 	zsh
 
 	#
@@ -217,7 +221,20 @@ pkg_purge_params="$debs_to_purge"
 #
 pkg_manager="apt-get"
 type -p aptitude > /dev/null && pkg_manager="aptitude"
-$pkg_manager install $pkg_install_params
+#
+#	Installation et retrait des paquets
+#
+pkg_manager="apt-get"
+#type -p aptitude > /dev/null && pkg_manager="aptitude"
+#read -r -p "Mettre à jour les paquets de cette machine (o/N)? " answer
+if [[ $INSTALL_AUTO = yes ]]; then
+	$pkg_manager -yf  install $pkg_install_params
+else
+	if ask_yn_question "\tMettre à jour les paquets de cette machine ?"; then
+    	println info "Faire \" $pkg_manager install $pkg_install_params \" "
+		$pkg_manager -yf install $pkg_install_params
+	fi
+fi
 $pkg_manager purge --assume-yes $pkg_purge_params
 
 #

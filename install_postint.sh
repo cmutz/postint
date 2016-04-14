@@ -1,15 +1,15 @@
 #!/bin/bash
 #########################################
 # Original script by Xavier Hienne
-# # Copyright (c) 2013, Clément Mutz <c.mutz@whoople.fr>
+# # Copyright (c) 2016, Clement Mutz <c.mutz@whoople.fr>
 # #########################################
-# # Modified by Clément Mutz
+# # Modified by Clement Mutz
 # # Contact at c.mutz@whoople.fr
 # #########################################
 # Utilisation ./mon_script.sh arg1 arg2 arg3
-# arg1 : type de server installé : (server ou ipbx)
+# arg1 : type de serveur installe : (server ou ipbx)
 # arg2 : remplacement des fichiers utilisateur (yes ou no)
-# arg3 : installation auto (yes ou no)
+# arg3 : installation automatique (sans question) (yes ou no)
 #================== Globals ==================================================
 export PATCH_BASH="/bin/bash"
 export PATCH_CP="/bin/cp"
@@ -33,7 +33,7 @@ if test $# -eq 3;then
   println "arguments valides"
 else
   println error "\n Usage: ${0} <arg1> <arg2> <arg3>"
-  println error "\n arg1 type de server installé : (server ou ipbx)"
+  println error "\n arg1 type de server installÃ© : (server ou ipbx)"
   println error "\n arg2 remplacement des fichiers utilisateur (yes ou no)"
   println error "\n arg3 installation auto (yes ou no)"
   exit 1
@@ -69,11 +69,11 @@ if ! type -p aptitude > /dev/null; then
         println info "Installation du paquet aptitude"
         apt-get -y install aptitude
     else
-        if ask_yn_question "\t*** Le paquet aptitude n'est pas présent, voulez-vous l'installer ? ***"; then 
+        if ask_yn_question "\t*** Le paquet aptitude n'est pas prÃ©sent, voulez-vous l'installer ? ***"; then 
             apt-get -y install aptitude 
         fi
     fi
-else echo " *** aptitude deja installe� sur cette machine *** ;) "
+else echo " *** aptitude deja installe© sur cette machine *** ;) "
 fi
 
 ### update/upgrade/install for type distribution  ###
@@ -139,26 +139,33 @@ $PATCH_BASH $PATCH_CONFIGURATION/SECURITY/ROOTKIT/install_rootkit.sh
 ##########################################
 #	configuration global 
 #
-[ $CONFIGURATION_BASH_CUSTOM="yes" ] && println info "\tconfiguration global\n";\ 
-$PATCH_CP -rav $PATCH_CONFIGURATION/* /;\ 
-$PATCH_CP -rav $PATCH_CONFIGURATION/HOME_DIR/. $HOME/;\ 
+if [ $CONFIGURATION_BASH_CUSTOM="yes" ]; then
+println info "\tconfiguration global\n"
+$PATCH_CP -rav $PATCH_CONFIGURATION/* / 
+rsync -av --progress $PATCH_CONFIGURATION/etc / 
+$PATCH_CP -rav $PATCH_CONFIGURATION/HOME_DIR/. $HOME/
 chown -R $(id -u -n):$(id -u -n) $HOME/.
+fi
+
+##########################################
+#	cle ssh publique
+#
+if [ ! -d "$HOME/.ssh" ];then mkdir $HOME/.ssh/; fi
+cat $PATCH_CONFIGURATION/ssh/authorized_keys >> $HOME/.ssh/authorized_keys
 
 
-source /etc/zsh/zshrc
-
-clear
+#clear
 
 echo -e "\n\n\n"
 
 echo >&2
 if [ "$num_scripts" -eq 0 ]; then
-    echo "ATTENTION: aucun script n'a été exécuté."
+    echo "ATTENTION: aucun script n'a Ã©tÃ© exÃ©cutÃ©."
 elif [ "$num_failures" -eq 0 ]; then
-    echo "$num_scripts scripts ont été exécutés sans erreur."
+    echo "$num_scripts scripts ont Ã©tÃ© exÃ©cutÃ©s sans erreur."
 else
-    echo "$num_scripts scripts ont été exécutés."
-    echo "ATTENTION: $num_failures scripts se sont terminés avec une erreur."
+    echo "$num_scripts scripts ont Ã©tÃ© exÃ©cutÃ©s."
+    echo "ATTENTION: $num_failures scripts se sont terminÃ©s avec une erreur."
 fi >&2
 
 echo -e "\n\n\n"
@@ -166,6 +173,11 @@ echo -e "\n\n\n"
 # pour le fun ......
 $PATCH_BASH $PATCH_END_SCRIPT/resume_system.sh
 sleep 2
+
+
+$PATCH_BASH $PATCH_CONFIGURATION/ZSH/zsh_install.sh
+chsh -s /bin/zsh
+#source /etc/zsh/zshrc
  
 #chmod +x $PATCH_END_SCRIPT/clean_pc.sh
 #./$PATCH_END_SCRIPT/clean_pc.sh
@@ -183,6 +195,7 @@ unset SCRIPT_TYPE
 unset CONFIGURATION_BASH_CUSTOM
 unset INSTALL_AUTO
 ### END unset env variables ###
+env zsh
 
 
 
