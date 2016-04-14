@@ -14,7 +14,7 @@ Pour le moment il supporte les distributions suivantes :
 
 ###2°- execution du script d'installation
 
-**install.sh arg1 arg2 arg3**
+**./install.sh arg1 arg2 arg3**
 
 - **arg1** : type de server à installer ( server )
 - **arg2** : remplacement des fichiers utilisateurs ( yes/no )
@@ -30,11 +30,11 @@ exemple : 0.sh -> 1.sh -> 1_debian.sh -> 1_debian_quantal.sh
 
 Par défault les numéros des fichiers correspond :
 
-0 -> mis à jour des paquets
-1 -> installation des paquets
-2 -> ajout de dépôts
-3 -> configuration
-9 -> fin de configuration
+- 0 -> mis à jour des paquets
+- 1 -> installation des paquets
+- 2 -> ajout de dépôts
+- 3 -> configuration
+- 9 -> fin de configuration
 
 
 
