@@ -28,7 +28,7 @@ Ensuite dans le dossier OS, les scripts sont executés dans leurs ordre en fonct
 exemple : 0.sh -> 1.sh -> 1_debian.sh -> 1_debian_quantal.sh
 
 
-Par défault les numéros des fichiers correspond :
+Par défault les numéros des fichiers correspondent :
 
 - 0 -> mis à jour des paquets
 - 1 -> installation des paquets
