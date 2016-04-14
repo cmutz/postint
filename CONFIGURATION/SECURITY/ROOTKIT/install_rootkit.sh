@@ -4,4 +4,6 @@
 #
 #	Copy file configuration rkhunter
 #
-echo "0 6 * * * root (/usr/sbin/chkrootkit 2>&1 | mutt -s '[$HOSTNAME] Résultats de chkrootkit' $MAIL)" >> /etc/crontab
+
+rsync -av --progress chkrootkit.cron /etc/cron.d/chkrootkit
+echo "0 6 * * * root (/usr/sbin/chkrootkit 2>&1 | mutt -s '[$HOSTNAME] Résultats de chkrootkit' $MAIL)" >> /etc/cron.d/chkrootkit

@@ -53,7 +53,7 @@ fi
 ##########################################
 #       redemarrage des services
 #
-service ntp restart
 ntpq -p
+service ntp restart
 service postfix restart
 service fail2ban restart

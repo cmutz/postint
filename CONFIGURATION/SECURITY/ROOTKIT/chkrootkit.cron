@@ -1,0 +1,4 @@
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+0 6 * * * root (/usr/sbin/chkrootkit 2>&1 | mutt -s '[debian] Résultats de chkrootkit' infrastructure@whoople.fr)
