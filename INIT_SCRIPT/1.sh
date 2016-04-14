@@ -52,6 +52,7 @@ export LC_ALL=C
         vlan
         w3m
         cifs-utils
+	ntp
 
 	#
         #	Utilitaires d'archivage
