@@ -220,11 +220,6 @@ pkg_purge_params="$debs_to_purge"
 #	Installation et retrait des paquets
 #
 pkg_manager="apt-get"
-type -p aptitude > /dev/null && pkg_manager="aptitude"
-#
-#	Installation et retrait des paquets
-#
-pkg_manager="apt-get"
 #type -p aptitude > /dev/null && pkg_manager="aptitude"
 #read -r -p "Mettre à jour les paquets de cette machine (o/N)? " answer
 if [[ $INSTALL_AUTO = yes ]]; then
@@ -236,7 +231,6 @@ else
 	fi
 fi
 $pkg_manager purge --assume-yes $pkg_purge_params
-
 #
 #	Postinst
 #

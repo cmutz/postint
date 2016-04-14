@@ -33,7 +33,7 @@ if test $# -eq 3;then
   println "arguments valides"
 else
   println error "\n Usage: ${0} <arg1> <arg2> <arg3>"
-  println error "\n arg1 type de server installÃ© : (server ou ipbx)"
+  println error "\n arg1 type de server installe : (server ou ipbx)"
   println error "\n arg2 remplacement des fichiers utilisateur (yes ou no)"
   println error "\n arg3 installation auto (yes ou no)"
   exit 1
@@ -141,7 +141,6 @@ $PATCH_BASH $PATCH_CONFIGURATION/SECURITY/ROOTKIT/install_rootkit.sh
 #
 if [ $CONFIGURATION_BASH_CUSTOM="yes" ]; then
 println info "\tconfiguration global\n"
-$PATCH_CP -rav $PATCH_CONFIGURATION/* / 
 rsync -av --progress $PATCH_CONFIGURATION/etc / 
 $PATCH_CP -rav $PATCH_CONFIGURATION/HOME_DIR/. $HOME/
 chown -R $(id -u -n):$(id -u -n) $HOME/.
