@@ -1,19 +1,26 @@
-##postint
+#postint
 
 Postint à un outils comme son nom l'indique post-installation d'un serveur Linux.
 Pour le moment il supporte les distributions suivantes :
 - Debian Wheezy
 - Debian Jessie
 
-###1°- Fichier de configuration home
+###1°- Pre-requis
 
-Adapter les fichiers suivants en fonction de son utilisation.
-.bashrc
-.screenrc
-bin/whereami
+- lsb-release
 
------------------------------------
-#2°- execution des scripts d'installations
+- root
+
+###2°- execution du script d'installation
+
+install.sh arg1 arg2 arg3
+
+arg1 : type de server à installer ( server )
+arg2 : remplacement des fichiers utilisateurs ( yes/no )
+arg3 : installation automatique ( yes/no )
+
+
+
 
 Ensuite dans le dossier OS, les scripts sont executés dans leurs ordre en fonction du numéro, du nom distributions et enfin de la version de la dsitrib.
 
@@ -28,6 +35,13 @@ Par défault les numéros des fichiers correspond :
 
 #### A FAIRE ####
 Logger dans un fichier les log écrans
+
+
+Adapter les fichiers suivants en fonction de son utilisation.
+.bashrc
+.screenrc
+bin/whereami
+
 
 Auteur : Mutz Clement
 Date derniere modification : 21/08/2013
