@@ -20,7 +20,7 @@
 . $PATCH_LIBRARY/functions.sh
 
 
-prerequiq() {
+prerequis() {
 #================== Verification =============================================
 ### you must execute root user
 [ `whoami`  != "root" ] && println error "This script need to be launched as root." && exit 1
