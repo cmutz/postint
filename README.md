@@ -14,7 +14,7 @@ Pour le moment il supporte les distributions suivantes :
 
 ###2°- execution du script d'installation
 
-`**./install.sh arg1 arg2 arg3**`
+`./install.sh arg1 arg2 arg3`
 
 - **arg1** : type de server à installer ( server )
 - **arg2** : remplacement des fichiers utilisateurs ( yes/no )
