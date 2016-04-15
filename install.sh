@@ -1,122 +1,142 @@
-main() {
-  # Use colors, but only if connected to a terminal, and that terminal
-  # supports them.
-  if which tput >/dev/null 2>&1; then
-      ncolors=$(tput colors)
-  fi
-  if [ -t 1 ] && [ -n "$ncolors" ] && [ "$ncolors" -ge 8 ]; then
-    RED="$(tput setaf 1)"
-    GREEN="$(tput setaf 2)"
-    YELLOW="$(tput setaf 3)"
-    BLUE="$(tput setaf 4)"
-    BOLD="$(tput bold)"
-    NORMAL="$(tput sgr0)"
-  else
-    RED=""
-    GREEN=""
-    YELLOW=""
-    BLUE=""
-    BOLD=""
-    NORMAL=""
-  fi
+#!/bin/bash
+#########################################
+# Original script by Xavier Hienne
+# # Copyright (c) 2016, Clement Mutz <c.mutz@whoople.fr>
+# #########################################
+# # Modified by Clement Mutz
+# # Contact at c.mutz@whoople.fr
+# #########################################
+# Utilisation ./mon_script.sh arg1 arg2 arg3
+# arg1 : type de serveur installe : (server ou ipbx)
+# arg2 : remplacement des fichiers utilisateur (yes ou no)
+# arg3 : installation automatique (sans question) (yes ou no)
 
-  # Only enable exit-on-error after the non-critical colorization stuff,
-  # which may fail on systems lacking tput or terminfo
-  set -e
 
-  CHECK_ZSH_INSTALLED=$(grep /zsh$ /etc/shells | wc -l)
-  if [ ! $CHECK_ZSH_INSTALLED -ge 1 ]; then
-    printf "${YELLOW}Zsh is not installed!${NORMAL} Please install zsh first!\n"
-    exit
-  fi
-  unset CHECK_ZSH_INSTALLED
 
-  if [ ! -n "$ZSH" ]; then
-    ZSH=~/.oh-my-zsh
-  fi
+#================== Globals ==================================================
+. global.sh
 
-  if [ -d "$ZSH" ]; then
-    printf "${YELLOW}You already have Oh My Zsh installed.${NORMAL}\n"
-    printf "You'll need to remove $ZSH if you want to re-install.\n"
-    exit
-  fi
+#================== Functions ================================================
+. $PATCH_LIBRARY/functions.sh
 
-  # Prevent the cloned repository from having insecure permissions. Failing to do
-  # so causes compinit() calls to fail with "command not found: compdef" errors
-  # for users with insecure umasks (e.g., "002", allowing group writability). Note
-  # that this will be ignored under Cygwin by default, as Windows ACLs take
-  # precedence over umasks except for filesystems mounted with option "noacl".
-  umask g-w,o-w
 
-  printf "${BLUE}Cloning Oh My Zsh...${NORMAL}\n"
-  hash git >/dev/null 2>&1 || {
-    echo "Error: git is not installed"
-    exit 1
-  }
-  env git clone --depth=1 https://github.com/robbyrussell/oh-my-zsh.git $ZSH || {
-    printf "Error: git clone of oh-my-zsh repo failed\n"
-    exit 1
-  }
+#================== Verification =============================================
+### you must execute root user
+[ `whoami`  != "root" ] && println error "This script need to be launched as root." && exit 1
 
-  # The Windows (MSYS) Git is not compatible with normal use on cygwin
-  if [ "$OSTYPE" = cygwin ]; then
-    if git --version | grep msysgit > /dev/null; then
-      echo "Error: Windows/MSYS Git is not supported on Cygwin"
-      echo "Error: Make sure the Cygwin git package is installed and is first on the path"
-      exit 1
-    fi
-  fi
+# On verifie le nombre d'arguments
+if test $# -eq 3;then
+  println "arguments valides"
+else
+  println error "\n Usage: ${0} <arg1> <arg2> <arg3>"
+  println error "\n arg1 type de server installe : (server ou ipbx)"
+  println error "\n arg2 remplacement des fichiers utilisateur (yes ou no)"
+  println error "\n arg3 installation auto (yes ou no)"
+  exit 1
+fi
 
-  printf "${BLUE}Looking for an existing zsh config...${NORMAL}\n"
-  if [ -f ~/.zshrc ] || [ -h ~/.zshrc ]; then
-    printf "${YELLOW}Found ~/.zshrc.${NORMAL} ${GREEN}Backing up to ~/.zshrc.pre-oh-my-zsh${NORMAL}\n";
-    mv ~/.zshrc ~/.zshrc.pre-oh-my-zsh;
-  fi
+# On verifie la bonne saisie
+if f_checkanswer $1 server owncloud; then
+    println error "\n arg1 attendu : (server/owncloud)"
+    exit 2
+fi
+# On verifie la bonne saisie
+if f_checkanswer $2 yes no; then
+    println error "\n arg2 attendu : (yes/no)"
+    exit 2
+fi
+# On verifie la bonne saisie
+if f_checkanswer $3 yes no; then
+    println error "\n arg3 attendu : (yes/no)"
+    exit 2
+fi
 
-  printf "${BLUE}Using the Oh My Zsh template file and adding it to ~/.zshrc${NORMAL}\n"
-  cp $ZSH/templates/zshrc.zsh-template ~/.zshrc
-  sed "/^export ZSH=/ c\\
-  export ZSH=$ZSH
-  " ~/.zshrc > ~/.zshrc-omztemp
-  mv -f ~/.zshrc-omztemp ~/.zshrc
+#### search package lsb_release ###
+if ! type -p lsb_release > /dev/null; then
+    echo "Avant toute chose, installez le programme lsb_release (paquet lsb-release sur Debian et CentOS et redhat-lsb sur RedHat)" >&2
+    exit 2
+fi
 
-  printf "${BLUE}Copying your current PATH and adding it to the end of ~/.zshrc for you.${NORMAL}\n"
-  sed "/export PATH=/ c\\
-  export PATH=\"$PATH\"
-  " ~/.zshrc > ~/.zshrc-omztemp
-  mv -f ~/.zshrc-omztemp ~/.zshrc
-
-  # If this user's login shell is not already "zsh", attempt to switch.
-  TEST_CURRENT_SHELL=$(expr "$SHELL" : '.*/\(.*\)')
-  if [ "$TEST_CURRENT_SHELL" != "zsh" ]; then
-    # If this platform provides a "chsh" command (not Cygwin), do it, man!
-    if hash chsh >/dev/null 2>&1; then
-      printf "${BLUE}Time to change your default shell to zsh!${NORMAL}\n"
-      chsh -s $(grep /zsh$ /etc/shells | tail -1)
-    # Else, suggest the user do so manually.
+### search aptitude else ask installation ###
+if ! type -p aptitude > /dev/null; then
+    if [[ $INSTALL_AUTO = yes ]]; then
+        println info "Installation du paquet aptitude"
+        apt-get -y install aptitude
     else
-      printf "I can't change your shell automatically because this system does not have chsh.\n"
-      printf "${BLUE}Please manually change your default shell to zsh!${NORMAL}\n"
+        if ask_yn_question "\t*** Le paquet aptitude n'est pas prÃ©sent, voulez-vous l'installer ? ***"; then 
+            apt-get -y install aptitude 
+        fi
     fi
-  fi
+else echo " *** aptitude deja installe© sur cette machine *** ;) "
+fi
 
-  printf "${GREEN}"
-  echo '         __                                     __   '
-  echo '  ____  / /_     ____ ___  __  __   ____  _____/ /_  '
-  echo ' / __ \/ __ \   / __ `__ \/ / / /  /_  / / ___/ __ \ '
-  echo '/ /_/ / / / /  / / / / / / /_/ /    / /_(__  ) / / / '
-  echo '\____/_/ /_/  /_/ /_/ /_/\__, /    /___/____/_/ /_/  '
-  echo '                        /____/                       ....is now installed!'
-  echo ''
-  echo ''
-  echo 'Please look over the ~/.zshrc file to select plugins, themes, and options.'
-  echo ''
-  echo 'p.s. Follow us at https://twitter.com/ohmyzsh.'
-  echo ''
-  echo 'p.p.s. Get stickers and t-shirts at http://shop.planetargon.com.'
-  echo ''
-  printf "${NORMAL}"
-  env zsh
-}
+### update/upgrade/install for type distribution  ###
+detectdistro
+#dist_vendor=$(lsb_release --short --id | tr [A-Z] [a-z])
+dist_vendor=$distro
+println info "\t$distro"
+dist_name=$(lsb_release --short --codename | tr [A-Z] [a-z])
+cd "$(dirname "$0")"		# WARNING: current directory has changed!
+num_scripts=0
+num_failures=0
 
-main
+if [[ $INSTALL_AUTO = no ]]; then
+    if  ! ask_yn_question "\t*** Vous avez une '$dist_vendor - $dist_name' ***"; then
+        read -r -p " *** Renseigner le nom du syteme (ubuntu,debian,linux_mint) *** " dist_vendor
+        read -r -p " *** Renseigner le nom de votre version (quantal,wheezy) *** " dist_name
+    fi
+fi
+
+### mode non interactif
+export DEBIAN_FRONTEND=noninteractive
+
+for i in {0..9}; do
+  postinst_base="./$PATCH_INIT_SCRIPT/$i"
+  postinst_vendor_base="$postinst_base.${dist_vendor}"
+  postinst_dist_base="${postinst_vendor_base}_$dist_name"
+
+   println info "
+   postinst_base : $postinst_base.sh\n postinst_vendor_base: $postinst_vendor_base.sh \n 
+   postinst_dist_base : $postinst_dist_base \n 
+   "
+
+
+   for script in "$postinst_base.sh" "$postinst_vendor_base.sh" "$postinst_dist_base.sh" "$postinst_base".ALL.*.sh "$postinst_vendor_base".*.sh "$postinst_dist_base".*.sh; do
+	println "\n\n  script en cours d'execution : $script\n\n"
+	[ -f "$script" -a -s "$script" ] || continue
+	cat <<- _END_ >&2
+
+	################################################################################
+	#
+	#	$(readlink -f "$script")
+	#
+	_END_
+	let "num_scripts++"
+	if ! bash -u -e "$script"; then
+	    echo "*** ATTENTION: une erreur s'est produite dans le script '$script' ***" >&2
+	    let "num_failures++"
+	fi
+    done
+done
+
+echo >&2
+if [ "$num_scripts" -eq 0 ]; then
+    echo "ATTENTION: aucun script n'a ete execute."
+elif [ "$num_failures" -eq 0 ]; then
+    echo "$num_scripts scripts ont ete executes sans erreur."
+else
+    echo "$num_scripts scripts ont ete executes."
+    echo "ATTENTION: $num_failures scripts se sont termines avec une erreur."
+fi >&2
+
+# pour le fun ......
+$PATCH_BASH $PATCH_END_SCRIPT/resume_system.sh
+sleep 2
+
+$PATCH_BASH $PATCH_CONFIGURATION/ZSH/zsh_install.sh
+chsh -s /bin/zsh
+env zsh
+
+
+
+
