@@ -13,6 +13,11 @@
 
 
 
+# changement de repertoire courant !
+cd "$(dirname "$0")"
+
+
+
 #================== Globals ==================================================
 . global.sh
 
