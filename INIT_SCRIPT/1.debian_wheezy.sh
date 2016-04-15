@@ -3,7 +3,7 @@
 #	Installation des paquets communs à tous les serveurs Debian Wheezy que nous installons (internes ou clients)
 
 ### import file functions ###
-. $PATCH_LIBRARY/functions.sh
+. $PATH_LIBRARY/functions.sh
 ### END import file functions ###
 
 set -ue

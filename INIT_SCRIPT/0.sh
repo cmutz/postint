@@ -3,7 +3,7 @@
 ###############################################################################
 
 ### import file functions ###
-. $PATCH_LIBRARY/functions.sh
+. $PATH_LIBRARY/functions.sh
 ### END import file functions ###
 
 set -u  # u pour envoyer sur l'entrée standard les variables non définies

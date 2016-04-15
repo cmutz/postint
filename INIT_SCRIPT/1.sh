@@ -3,7 +3,7 @@
 #	Installation des paquets communs à tous les systèmes d'exploitations que nous installons (serveurs ou clients)
 
 ### import file functions ###
-. $PATCH_LIBRARY/functions.sh
+. $PATH_LIBRARY/functions.sh
 ### END import file functions ###
 
 

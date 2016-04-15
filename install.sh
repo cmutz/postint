@@ -17,7 +17,7 @@
 . global.sh
 
 #================== Functions ================================================
-. $PATCH_LIBRARY/functions.sh
+. $PATH_LIBRARY/functions.sh
 
 
 #================== Verification =============================================
@@ -91,7 +91,7 @@ fi
 export DEBIAN_FRONTEND=noninteractive
 
 for i in {0..9}; do
-  postinst_base="./$PATCH_INIT_SCRIPT/$i"
+  postinst_base="./$PATH_INIT_SCRIPT/$i"
   postinst_vendor_base="$postinst_base.${dist_vendor}"
   postinst_dist_base="${postinst_vendor_base}_$dist_name"
 
@@ -130,10 +130,10 @@ else
 fi >&2
 
 # pour le fun ......
-$PATCH_BASH $PATCH_END_SCRIPT/resume_system.sh
+$PATH_BASH $PATH_END_SCRIPT/resume_system.sh
 sleep 2
 
-$PATCH_BASH $PATCH_CONFIGURATION/ZSH/zsh_install.sh
+$PATH_BASH $PATH_CONFIGURATION/ZSH/zsh_install.sh
 chsh -s /bin/zsh
 env zsh
 
