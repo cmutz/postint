@@ -1,0 +1,30 @@
+#!/bin/bash
+### BEGIN INIT INFO
+# Provides:          whoople_firstboot
+# Required-Start:    \$local_fs 
+# Required-Stop:     \$local_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: v1 - 15/04/2016 - c.mutz - init script
+# Description:       
+#
+### END INIT INFO
+. /lib/lsb/init-functions
+case "\$1" in
+start)  log_daemon_msg "Starting tasks needed for the first boot" "whoople_firstboot"
+                echo
+        # Removing old SSH keys if they exists the create new one
+                [ -a "/etc/ssh/ssh_host_dsa_key" ] && rm -rf /etc/ssh/ssh_host_dsa_key*
+                [ -a "/etc/ssh/ssh_host_rsa_key" ] && rm -rf /etc/ssh/ssh_host_rsa_key*
+                /usr/bin/ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key -N ""
+                /usr/bin/ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -N ""
+                /bin/bash /usr/src/postint/install.sh server yes yes
+                # removing this script from the boot process
+                insserv -f -r whoople_firstboot
+        log_end_msg \$?
+        ;;
+*)      log_action_msg "Usage: /etc/init.d/whoople_firstboot start"
+        exit 2
+        ;;
+esac
+EOF2
