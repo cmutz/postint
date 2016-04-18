@@ -24,7 +24,6 @@ cd "$(dirname "$0")"
 #================== Functions ================================================
 . $PATH_LIBRARY/functions.sh
 
-
 #================== Verification =============================================
 ### you must execute root user
 [ `whoami`  != "root" ] && println error "This script need to be launched as root." && exit 1
@@ -93,12 +92,14 @@ if [[ $INSTALL_AUTO = no ]]; then
 fi
 
 ### mode non interactif
-export DEBIAN_FRONTEND=noninteractive
+if [[ $INSTALL_AUTO = yes ]]; then export DEBIAN_FRONTEND=noninteractive; fi
 
 for i in {0..9}; do
   postinst_base="./$PATH_INIT_SCRIPT/$i"
   postinst_vendor_base="$postinst_base.${dist_vendor}"
   postinst_dist_base="${postinst_vendor_base}_$dist_name"
+  #postinst_service="${postinst_dist_base}_$1"
+
 
    println info "
    postinst_base : $postinst_base.sh\n postinst_vendor_base: $postinst_vendor_base.sh \n 
