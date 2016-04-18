@@ -10,21 +10,21 @@
 # arg1 : type de serveur installe : (server ou ipbx)
 # arg2 : remplacement des fichiers utilisateur (yes ou no)
 # arg3 : installation automatique (sans question) (yes ou no)
+
+
+
+# changement de repertoire courant !
+cd "$(dirname "$0")"
+
+
+
 #================== Globals ==================================================
-export PATCH_BASH="/bin/bash"
-export PATCH_CP="/bin/cp"
-export PATCH_INIT_SCRIPT="INIT_SCRIPT"
-export PATCH_END_SCRIPT="END_SCRIPT"
-export PATCH_CONFIGURATION="CONFIGURATION"
-export PATCH_LIBRARY="LIBRARY"
-export LOGFILE=./log.`date +%s`.out
-export SCRIPT_TYPE=$1
-export CONFIGURATION_BASH_CUSTOM=$2
-export INSTALL_AUTO=$3
+. global.sh
 
 #================== Functions ================================================
-. $PATCH_LIBRARY/functions.sh
+. $PATH_LIBRARY/functions.sh
 
+#================== Verification =============================================
 ### you must execute root user
 [ `whoami`  != "root" ] && println error "This script need to be launched as root." && exit 1
 
@@ -40,20 +40,18 @@ else
 fi
 
 # On verifie la bonne saisie
-if f_checkanswer $1 ipbx server; then
-    println error "\n arg1 attendu : (server ou ipbx)"
+if f_checkanswer $1 server owncloud; then
+    println error "\n arg1 attendu : (server/owncloud)"
     exit 2
 fi
-
 # On verifie la bonne saisie
 if f_checkanswer $2 yes no; then
-    println error "\n arg2 attendu : (yes ou no)"
+    println error "\n arg2 attendu : (yes/no)"
     exit 2
 fi
-
 # On verifie la bonne saisie
 if f_checkanswer $3 yes no; then
-    println error "\n arg3 attendu : (yes ou no)"
+    println error "\n arg3 attendu : (yes/no)"
     exit 2
 fi
 
@@ -93,11 +91,15 @@ if [[ $INSTALL_AUTO = no ]]; then
     fi
 fi
 
+### mode non interactif
+if [[ $INSTALL_AUTO = yes ]]; then export DEBIAN_FRONTEND=noninteractive; fi
 
 for i in {0..9}; do
-  postinst_base="./$PATCH_INIT_SCRIPT/$i"
+  postinst_base="./$PATH_INIT_SCRIPT/$i"
   postinst_vendor_base="$postinst_base.${dist_vendor}"
   postinst_dist_base="${postinst_vendor_base}_$dist_name"
+  #postinst_service="${postinst_dist_base}_$1"
+
 
    println info "
    postinst_base : $postinst_base.sh\n postinst_vendor_base: $postinst_vendor_base.sh \n 
@@ -123,77 +125,22 @@ for i in {0..9}; do
     done
 done
 
-
-##########################################
-#	configuration de l'envoi des mails
-#
-println info "\tconfiguration de l'envoi des mails\n"
-$PATCH_BASH $PATCH_CONFIGURATION/POSTFIX/install_mail.sh
-
-##########################################
-#	configuration security rootkit 
-#
-println info "\tconfiguration security rootkit\n"
-$PATCH_BASH $PATCH_CONFIGURATION/SECURITY/ROOTKIT/install_rootkit.sh
-
-##########################################
-#	configuration global 
-#
-if [ $CONFIGURATION_BASH_CUSTOM="yes" ]; then
-println info "\tconfiguration global\n"
-rsync -av --progress $PATCH_CONFIGURATION/etc / 
-$PATCH_CP -rav $PATCH_CONFIGURATION/HOME_DIR/. $HOME/
-chown -R $(id -u -n):$(id -u -n) $HOME/.
-fi
-
-##########################################
-#	cle ssh publique
-#
-if [ ! -d "$HOME/.ssh" ];then mkdir $HOME/.ssh/; fi
-cat $PATCH_CONFIGURATION/ssh/authorized_keys >> $HOME/.ssh/authorized_keys
-
-
-#clear
-
-echo -e "\n\n\n"
-
 echo >&2
 if [ "$num_scripts" -eq 0 ]; then
-    echo "ATTENTION: aucun script n'a Ã©tÃ© exÃ©cutÃ©."
+    echo "ATTENTION: aucun script n'a ete execute."
 elif [ "$num_failures" -eq 0 ]; then
-    echo "$num_scripts scripts ont Ã©tÃ© exÃ©cutÃ©s sans erreur."
+    echo "$num_scripts scripts ont ete executes sans erreur."
 else
-    echo "$num_scripts scripts ont Ã©tÃ© exÃ©cutÃ©s."
-    echo "ATTENTION: $num_failures scripts se sont terminÃ©s avec une erreur."
+    echo "$num_scripts scripts ont ete executes."
+    echo "ATTENTION: $num_failures scripts se sont termines avec une erreur."
 fi >&2
 
-echo -e "\n\n\n"
-
 # pour le fun ......
-$PATCH_BASH $PATCH_END_SCRIPT/resume_system.sh
+$PATH_BASH $PATH_END_SCRIPT/resume_system.sh
 sleep 2
 
-
-$PATCH_BASH $PATCH_CONFIGURATION/ZSH/zsh_install.sh
+$PATH_BASH $PATH_CONFIGURATION/ZSH/zsh_install.sh
 chsh -s /bin/zsh
-#source /etc/zsh/zshrc
- 
-#chmod +x $PATCH_END_SCRIPT/clean_pc.sh
-#./$PATCH_END_SCRIPT/clean_pc.sh
-#sleep 2
-
-### BEGIN unset env variables  ###
-unset PATCH_BASH
-unset PATCH_CP
-unset PATCH_INIT_SCRIPT
-unset PATCH_END_SCRIPT
-unset PATCH_CONFIGURATION
-unset PATCH_LIBRARY
-unset LOGFILE
-unset SCRIPT_TYPE
-unset CONFIGURATION_BASH_CUSTOM
-unset INSTALL_AUTO
-### END unset env variables ###
 env zsh
 
 

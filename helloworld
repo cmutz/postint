@@ -1,0 +1,26 @@
+#!/bin/sh
+    
+    # Placez ici des commandes à exécuter à chaque appel du script
+    echo 'Le script a été appelé !' >> /root/helloworld.txt
+    
+    # Le switch case ci-dessous permet de savoir si le système souhaite lancer ou arrêter le script (on le lance au démarrage et l'arrête à la fermeture du système)
+    case "$1" in
+        start)
+            # Placez ici les commandes à exécuter uniquement au lancement du script
+            echo 'Le script a été lançé !' >> /root/helloworld.txt
+            /bin/bash /usr/src/postint/install.sh server yes yes
+        ;;
+    
+        stop)
+            # Placez ici les commandes à exécuter uniquement à l'arrêt du script
+            echo 'Le script a été arrêté !' >> /root/helloworld.txt
+        ;;
+    
+        *)
+            # On indique ici comment utiliser le script, c'est dans le cas où le script est appelé sans argument ou avec un argument invalide
+            echo 'Usage: /etc/init.d/helloworld {start|stop}'
+            exit 1
+        ;;
+    esac
+    
+    exit 0

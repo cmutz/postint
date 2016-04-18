@@ -1,0 +1,23 @@
+#/bin/sh
+### BEGIN INIT INFO
+# Provides:          whoople_firstboot
+# Required-Start:    $all
+# Required-Stop:     $all
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: v1 - 15/04/2016 - c.mutz - init script
+# Description:       Enable service provided by daemon.
+### END INIT INFO
+    case "$1" in
+        start)
+                /bin/bash /usr/src/postint/install.sh server yes yes
+                # removing this script from the boot process
+                insserv -f -r whoople_firstboot
+        ;;
+        *)
+            echo 'Usage: /etc/init.d/whoople_firstboot start'
+            exit 1
+        ;;
+    esac
+    
+    exit 0
