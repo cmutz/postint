@@ -7,7 +7,7 @@
 # # Contact at c.mutz@whoople.fr
 # #########################################
 # Utilisation ./mon_script.sh arg1 arg2 arg3
-# arg1 : type de serveur installe : (server ou ipbx)
+# arg1 : type de serveur installe : (server ou owncloud)
 # arg2 : remplacement des fichiers utilisateur (yes ou no)
 # arg3 : installation automatique (sans question) (yes ou no)
 
@@ -33,7 +33,7 @@ if test $# -eq 3;then
   println "arguments valides"
 else
   println error "\n Usage: ${0} <arg1> <arg2> <arg3>"
-  println error "\n arg1 type de server installe : (server ou ipbx)"
+  println error "\n arg1 type de server installe : (server ou owncloud)"
   println error "\n arg2 remplacement des fichiers utilisateur (yes ou no)"
   println error "\n arg3 installation auto (yes ou no)"
   exit 1
@@ -98,16 +98,17 @@ for i in {0..9}; do
   postinst_base="./$PATH_INIT_SCRIPT/$i"
   postinst_vendor_base="$postinst_base.${dist_vendor}"
   postinst_dist_base="${postinst_vendor_base}_$dist_name"
-  #postinst_service="${postinst_dist_base}_$1"
+  postinst_service="${postinst_dist_base}_$1"
 
 
    println info "
    postinst_base : $postinst_base.sh\n postinst_vendor_base: $postinst_vendor_base.sh \n 
-   postinst_dist_base : $postinst_dist_base \n 
+   postinst_dist_base : $postinst_dist_base.sh \n 
+   postint_service : $postinst_service.sh \n
    "
 
 
-   for script in "$postinst_base.sh" "$postinst_vendor_base.sh" "$postinst_dist_base.sh" "$postinst_base".ALL.*.sh "$postinst_vendor_base".*.sh "$postinst_dist_base".*.sh; do
+   for script in "$postinst_base.sh" "$postinst_vendor_base.sh" "$postinst_dist_base.sh" "$postinst_base".ALL.*.sh "$postinst_vendor_base".*.sh "$postinst_dist_base".*.sh "$postinst_service.sh; do
 	println "\n\n  script en cours d'execution : $script\n\n"
 	[ -f "$script" -a -s "$script" ] || continue
 	cat <<- _END_ >&2
