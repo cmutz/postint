@@ -6,7 +6,7 @@ Defaults for rkhunter cron jobs
 #
 
 # Set this to the email address where reports and run output should be sent
-REPORT_EMAIL="infrastructure@servitics.fr"
+REPORT_EMAIL="$MAIL"
 
 # Set this to yes to enable rkhunter weekly database updates
 CRON_DB_UPDATE="yes"
