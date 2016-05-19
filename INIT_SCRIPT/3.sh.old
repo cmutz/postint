@@ -6,29 +6,20 @@
 . $PATH_LIBRARY/functions.sh
 ### END import file functions ###
 
-
-dest_file=/etc/cron.d/postint
-if [ -e "$dest_file" ]; then
-    echo "WARNING: '$dest_file' already exists and is left unchanged" >&2
-else
-    cat <<- _END_ > "$dest_file"
-	SHELL=/bin/sh
-	PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-	##########################################
-	#       configuration security rootkit 
-	#
-	echo "0 6 * * * root (/usr/sbin/chkrootkit 2>&1 | mutt -s '[$HOSTNAME] Résultats de chkrootkit' $MAIL)" >> /etc/cron.d/chkrootkit
-
-        _END_
+##########################################
+#       configuration security rootkit 
+#
+if [ $CONFIGURATION_CUSTOM="yes" ]; then
+println info "\tconfiguration security rootkit\n"
+$PATH_BASH $PATH_CONFIGURATION/SECURITY/ROOTKIT/install_rootkit.sh
 fi
 
 ##########################################
-#
-#       Copy file configuration logwatch
+#       configuration logwatch
 #
 if [ $CONFIGURATION_CUSTOM="yes" ]; then
 println info "\tconfiguration logwatch\n"
-sed -i 's/\/usr\/sbin\/logwatch --output mail/\/usr\/sbin\/logwatch --outputmail --mailto '$MAIL'  --detail high/g' /etc/cron.daily/00logwatch
+$PATH_BASH $PATH_CONFIGURATION/logwatch/install_logwatch.sh
 fi
 
 ##########################################
@@ -36,7 +27,7 @@ fi
 #
 if [ $CONFIGURATION_CUSTOM="yes" ]; then
 println info "\tconfiguration fail2ban\n"
-sed -i 's/destemail = root@localhost/destemail = '$MAIL'/g' /etc/fail2ban/jail.conf
+$PATH_BASH $PATH_CONFIGURATION/SECURITY/FAIL2BAN/install_fail2ban.sh
 fi
 
 ##########################################
