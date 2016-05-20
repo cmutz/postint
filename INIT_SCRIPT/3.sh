@@ -6,20 +6,23 @@
 . $PATH_LIBRARY/functions.sh
 ### END import file functions ###
 
+###############################################################################
+#		Configuration cron
+###############################################################################
 
-dest_file=/etc/cron.d/postint
+dest_file=/etc/cron.d/chkrootkit
 if [ -e "$dest_file" ]; then
     echo "WARNING: '$dest_file' already exists and is left unchanged" >&2
 else
     cat <<- _END_ > "$dest_file"
-	SHELL=/bin/sh
-	PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-	##########################################
-	#       configuration security rootkit 
-	#
-	echo "0 6 * * * root (/usr/sbin/chkrootkit 2>&1 | mutt -s '[$HOSTNAME] Résultats de chkrootkit' $MAIL)" >> /etc/cron.d/chkrootkit
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+##########################################
+#       configuration security rootkit 
+#
+0 6 * * * root (/usr/sbin/chkrootkit 2>&1 | mutt -s '[$HOSTNAME] Résultats de chkrootkit' $MAIL)
 
-        _END_
+_END_
 fi
 
 ##########################################
