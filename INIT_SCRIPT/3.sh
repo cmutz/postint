@@ -31,7 +31,7 @@ fi
 #
 if [ $CONFIGURATION_CUSTOM="yes" ]; then
 println info "\tconfiguration logwatch\n"
-sed -i 's/\/usr\/sbin\/logwatch --output mail/\/usr\/sbin\/logwatch --outputmail --mailto '$MAIL'  --detail high/g' /etc/cron.daily/00logwatch
+sed -i 's/\/usr\/sbin\/logwatch --output mail/\/usr\/sbin\/logwatch --output mail --mailto '$MAIL'  --detail high/g' /etc/cron.daily/00logwatch
 fi
 
 ##########################################
