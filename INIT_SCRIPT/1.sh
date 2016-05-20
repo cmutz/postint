@@ -78,6 +78,7 @@ export LC_ALL=C
         mlocate
         mmv
         molly-guard
+        mutt
         ncurses-hexedit
         psmisc
         pwgen
