@@ -177,10 +177,10 @@ f_element=${tab[0]}
 tab=(${*:2})
 for mot in ${tab[*]}
 do
-        if [ "$f_element" = $mot ];
-        then
-                return 1;
-        fi
+    if [ "$f_element" = $mot ];
+    then
+        return 1;
+    fi
 done
 }
 
