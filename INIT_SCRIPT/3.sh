@@ -68,12 +68,12 @@ if [ $CONFIGURATION_CUSTOM="yes" ]; then
 println info "\t configuration tmux\n"
 println info "\t source : https://github.com/tony/tmux-config \n"
 
-git clone https://github.com/tony/tmux-config.git ~$HOME/.tmux
-ln -s ~/.tmux/.tmux.conf ~/.tmux.conf
-cd ~/.tmux
+git clone https://github.com/tony/tmux-config.git $HOME/.tmux
+ln -s $HOME/.tmux/.tmux.conf $HOME/.tmux.conf
+cd $HOME/.tmux
 git submodule init
 git submodule update
-cd ~/.tmux/vendor/tmux-mem-cpu-load
+cd $HOME/.tmux/vendor/tmux-mem-cpu-load
 cmake .
 make
 sudo make install
