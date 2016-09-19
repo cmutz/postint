@@ -140,4 +140,4 @@ prompt adam2
 
 
 # ouvrir une sessions tmux a travers ssh
-function ssh_tmux() { ssh -t "$1" tmux new-session -t cmutz || ssh -t "$1" tmux new-session -s cmutz; }
+function ssh_tmux() { ssh -t "$1" -p "$2" tmux new-session -t "$3" || ssh -t "$1" -p "$2" tmux new-session -s "$3"; }
