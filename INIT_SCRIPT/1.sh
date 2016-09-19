@@ -25,6 +25,8 @@ export LC_ALL=C
         binutils
         make
         patch
+	cmake
+	g++
 
         #
         #	Debug

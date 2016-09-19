@@ -61,6 +61,25 @@ println info "\t try to copy public key ssh\n"
 cat $PATH_CONFIGURATION/ssh/authorized_keys >> $HOME/.ssh/authorized_keys
 fi
 
+##########################################
+#       configuration tmux
+#
+if [ $CONFIGURATION_CUSTOM="yes" ]; then
+println info "\t configuration tmux\n"
+println info "\t source : https://github.com/tony/tmux-config \n"
+
+git clone https://github.com/tony/tmux-config.git ~$HOME/.tmux
+ln -s ~/.tmux/.tmux.conf ~/.tmux.conf
+cd ~/.tmux
+git submodule init
+git submodule update
+cd ~/.tmux/vendor/tmux-mem-cpu-load
+cmake .
+make
+sudo make install
+fi
+
+
 
 ##########################################
 #       redemarrage des services
