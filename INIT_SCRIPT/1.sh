@@ -96,7 +96,6 @@ export LC_ALL=C
 	#	Reseau
 	#
 	chkrootkit
-	rkhunter
 	fail2ban
 	lynis
 "
