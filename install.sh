@@ -20,9 +20,10 @@ cd "$(dirname "$0")"
 
 #================== Globals ==================================================
 . global.sh
+source global.sh
 
 #================== Functions ================================================
-git clone https://github.com/cmutz/fonction_perso_bash LIBRARY
+[ ! -d $PATH_LIBRARY ] && git clone https://github.com/cmutz/fonction_perso_bash LIBRARY
 . $PATH_LIBRARY/functions.sh
 
 #================== Verification =============================================

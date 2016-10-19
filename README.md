@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #postint
 
 Postint à un outils comme son nom l'indique post-installation d'un serveur Linux.
@@ -47,3 +48,6 @@ Par défault les numéros des fichiers correspondent :
 
 **__Date création : 21/08/2013__**
 **__Date derniere modification : 14/04/2016__**
+=======
+# fonction_perso_bash
+>>>>>>> b01a355b5d956436a735d760ff3c18af284c13e3
