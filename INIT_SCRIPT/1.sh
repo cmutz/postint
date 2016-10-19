@@ -144,7 +144,7 @@ pkg_manager="apt-get"
 if [[ $INSTALL_AUTO = yes ]]; then
 	$pkg_manager -yf  install $pkg_install_params
 else
-	if ask_yn_question "\tMettre à jour les paquets de cette machine ?"; then
+	if f_ask_yn_question "\tMettre à jour les paquets de cette machine ?"; then
     	println info "Faire \" $pkg_manager install $pkg_install_params \" "
 		$pkg_manager -yf install $pkg_install_params
 	fi

@@ -25,7 +25,7 @@ $pkg_manager update
 if [[ $INSTALL_AUTO = yes ]]; then
 	$pkg_manager -yf upgrade
 else
-	if ask_yn_question "\tMettre à jour les paquets de cette machine ?"; then
+	if f_ask_yn_question "\tMettre à jour les paquets de cette machine ?"; then
     	println info "Faire \" $pkg_manager upgrade ... \" "
 		$pkg_manager -yf upgrade
 	fi

@@ -22,6 +22,7 @@ cd "$(dirname "$0")"
 . global.sh
 
 #================== Functions ================================================
+git clone https://github.com/cmutz/fonction_perso_bash LIBRARY
 . $PATH_LIBRARY/functions.sh
 
 #================== Verification =============================================
@@ -67,7 +68,7 @@ if ! type -p aptitude > /dev/null; then
         println info "Installation du paquet aptitude"
         apt-get -y install aptitude
     else
-        if ask_yn_question "\t*** Le paquet aptitude n'est pas prÃ©sent, voulez-vous l'installer ? ***"; then 
+        if f_ask_yn_question "\t*** Le paquet aptitude n'est pas prÃ©sent, voulez-vous l'installer ? ***"; then 
             apt-get -y install aptitude 
         fi
     fi
@@ -75,7 +76,7 @@ else echo " *** aptitude deja installe© sur cette machine *** ;) "
 fi
 
 ### update/upgrade/install for type distribution  ###
-detectdistro
+f_detectdistro
 #dist_vendor=$(lsb_release --short --id | tr [A-Z] [a-z])
 dist_vendor=$distro
 println info "\t$distro"
@@ -85,7 +86,7 @@ num_scripts=0
 num_failures=0
 
 if [[ $INSTALL_AUTO = no ]]; then
-    if  ! ask_yn_question "\t*** Vous avez une '$dist_vendor - $dist_name' ***"; then
+    if  ! f_ask_yn_question "\t*** Vous avez une '$dist_vendor - $dist_name' ***"; then
         read -r -p " *** Renseigner le nom du syteme (ubuntu,debian,linux_mint) *** " dist_vendor
         read -r -p " *** Renseigner le nom de votre version (quantal,wheezy) *** " dist_name
     fi
