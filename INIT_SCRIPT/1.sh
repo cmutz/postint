@@ -46,6 +46,7 @@ export LC_ALL=C
         itop
 	lm-sensors
         mytop
+		ncdu
 
         #
         #	Utilitaires réseau
